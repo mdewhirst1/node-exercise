@@ -1,6 +1,7 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
-
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var bears = [
   {name : "Grizzly"},
   {name : "Polar"},
@@ -13,7 +14,8 @@ var bears = [
 
 
 app.get("/bears" , function(req,res,next) {
-  res.send('<h1>All Bears</h1>');
+
+  res.send(bears);
 });
 
 app.get("/bears/:id", function (req,res,next){
@@ -25,6 +27,15 @@ app.get("/bears/:id", function (req,res,next){
   }else{
     res.send('<h1> Bear not found </h1>')
   }
+})
+
+app.post("/bears", function (req,res,next){
+  
+  console.log(req.body.name);
+  var newBear = {'name' : req.body.name};
+  bears.push(newBear);
+  res.send(newBear);
+
 })
 
 
